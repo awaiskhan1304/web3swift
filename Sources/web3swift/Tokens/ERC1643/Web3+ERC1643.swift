@@ -7,7 +7,7 @@
 
 import Foundation
 import BigInt
-import Web3Core
+
 
 // Document Management Standard
 protocol IERC1643: IERC20 {

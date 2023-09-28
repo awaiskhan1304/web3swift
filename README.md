@@ -84,7 +84,7 @@ In the imports section:
 
 ```swift
 import web3swift
-import Web3Core
+
 ```
 
 ### CocoaPods

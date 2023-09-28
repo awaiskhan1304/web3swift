@@ -7,7 +7,7 @@
 
 import Foundation
 import BigInt
-import Web3Core
+
 
 public enum IERC1376DelegateMode: UInt {
     case PublicMsgSender = 0

@@ -8,7 +8,7 @@
 
 import XCTest
 
-@testable import Web3Core
+@testable 
 @testable import web3swift
 
 class EthereumContractTest: LocalTestCase {

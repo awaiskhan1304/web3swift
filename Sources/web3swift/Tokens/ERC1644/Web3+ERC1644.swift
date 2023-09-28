@@ -7,7 +7,7 @@
 
 import Foundation
 import BigInt
-import Web3Core
+
 
 // Controller Token Operation Standard
 protocol IERC1644: IERC20 {

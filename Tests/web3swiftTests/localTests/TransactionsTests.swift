@@ -7,7 +7,7 @@ import Foundation
 import XCTest
 import CryptoSwift
 import BigInt
-import Web3Core
+
 
 // swiftlint:disable file_length
 // swiftlint:disable type_body_length

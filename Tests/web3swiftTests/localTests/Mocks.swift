@@ -6,7 +6,7 @@
 
 import Foundation
 @testable import web3swift
-@testable import Web3Core
+@testable 
 
 class Web3EthMock: IEth {
     let provider: Web3Provider

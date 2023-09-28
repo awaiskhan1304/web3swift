@@ -6,7 +6,7 @@
 
 import Foundation
 import BigInt
-import Web3Core
+
 
 public extension IEth {
     func callTransaction(_ transaction: CodableTransaction) async throws -> Data {

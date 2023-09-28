@@ -6,7 +6,7 @@
 //
 import Foundation
 import BigInt
-import Web3Core
+
 
 // Security Token Standard
 protocol IERC1400: IERC20 {

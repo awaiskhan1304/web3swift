@@ -7,7 +7,7 @@
 
 import Foundation
 import BigInt
-import Web3Core
+
 
 // MultiDimensional Token Standard
 protocol IERC888 {

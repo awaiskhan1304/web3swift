@@ -7,7 +7,7 @@
 
 import Foundation
 import BigInt
-import Web3Core
+
 
 /// EIP-1559 Base fee extension
 ///

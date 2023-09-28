@@ -5,7 +5,7 @@
 
 import Foundation
 import BigInt
-import Web3Core
+
 
 /// The default http provider.
 public class Web3HttpProvider: Web3Provider {

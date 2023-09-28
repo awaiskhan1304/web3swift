@@ -7,7 +7,7 @@
 
 import Foundation
 import BigInt
-import Web3Core
+
 
 public class PolicyResolver {
     private let provider: Web3Provider

@@ -5,7 +5,7 @@
 
 import Foundation
 import BigInt
-import Web3Core
+
 
 // FIXME: Rewrite this to CodableTransaction
 

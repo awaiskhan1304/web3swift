@@ -4,7 +4,7 @@
 //
 
 import XCTest
-@testable import Web3Core
+@testable 
 
 final class StringBIP44Tests: XCTestCase {
     private var invalidPaths: [String] {

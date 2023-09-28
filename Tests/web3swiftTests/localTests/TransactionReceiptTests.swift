@@ -8,7 +8,7 @@ import Foundation
 import XCTest
 import BigInt
 
-@testable import Web3Core
+@testable 
 
 class TransactionReceiptTests: XCTestCase {
 

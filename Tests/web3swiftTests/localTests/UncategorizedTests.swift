@@ -7,7 +7,7 @@ import XCTest
 import CryptoSwift
 import BigInt
 
-@testable import Web3Core
+@testable 
 @testable import web3swift
 
 class UncategorizedTests: XCTestCase {

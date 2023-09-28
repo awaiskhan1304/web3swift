@@ -4,7 +4,7 @@
 ////
 //
 // import XCTest
-// import Web3Core
+// 
 // import BigInt
 //
 // @testable import web3swift

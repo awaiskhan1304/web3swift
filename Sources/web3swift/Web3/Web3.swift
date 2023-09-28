@@ -4,7 +4,7 @@
 //
 
 import Foundation
-import Web3Core
+
 
 /// An arbitrary Web3 object. Is used only to construct provider bound fully functional object by either supplying provider URL
 /// or using pre-coded Infura nodes

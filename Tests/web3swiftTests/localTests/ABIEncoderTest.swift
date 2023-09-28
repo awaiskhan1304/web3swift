@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Web3Core
+
 import XCTest
 import BigInt
 @testable import web3swift

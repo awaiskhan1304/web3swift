@@ -4,7 +4,7 @@
 //
 
 import XCTest
-@testable import Web3Core
+@testable 
 
 final class EtherscanTransactionCheckerTests: XCTestCase {
     private var testApiKey: String { "4HVPVMV1PN6NGZDFXZIYKEZRP53IA41KVC" }

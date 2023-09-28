@@ -6,7 +6,7 @@
 
 import XCTest
 import Foundation
-@testable import Web3Core
+@testable 
 
 class Web3ErrorTests: XCTestCase {
 

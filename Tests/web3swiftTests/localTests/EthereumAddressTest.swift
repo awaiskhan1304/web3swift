@@ -8,7 +8,7 @@
 import Foundation
 import XCTest
 
-@testable import Web3Core
+@testable 
 
 class EthereumAddressTest: XCTestCase {
 

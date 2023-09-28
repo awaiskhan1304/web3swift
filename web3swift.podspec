@@ -19,7 +19,7 @@ Pod::Spec.new do |spec|
     spec.frameworks = 'CoreImage'
     spec.dependency 'Starscream', '~> 4.0.4'
     #spec.dependency 'secp256k1.c', '~> 0.1'
-    spec.dependency 'BigInt', '~> 5.2.0' # no newer version in pods.
+    #spec.dependency 'BigInt', '~> 5.2.0' # no newer version in pods.
     spec.dependency 'scrypt', '~> 2.0'
     spec.dependency 'secp256k1_swift', '~> 1.0.3'
     spec.dependency 'SwiftRLP', '~> 1.1'

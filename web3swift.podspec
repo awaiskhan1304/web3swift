@@ -18,5 +18,8 @@ Pod::Spec.new do |spec|
     spec.resource_bundle = { "Browser" => "Sources/web3swift/Browser/*.js" }
     spec.frameworks = 'CoreImage'
     spec.dependency 'Starscream', '~> 4.0.4'
-    #spec.dependency 'Web3Core', "~> #{WEB3CORE_VERSION}"
+    spec.dependency 'secp256k1.c', '~> 0.1'
+    spec.dependency 'BigInt', '~> 5.2.0' # no newer version in pods.
+    spec.dependency 'CryptoSwift', '~> 1.0.0'
+    spec.dependency 'Web3Core', "~> #{WEB3CORE_VERSION}"
 end

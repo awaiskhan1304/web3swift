@@ -74,7 +74,24 @@ public struct KeystoreParamsBIP32: AbstractKeystoreParams {
     }
 
 }
-
+public struct KeystoreParamsBIP32Old: Decodable, Encodable {
+    var crypto: CryptoParamsV3
+    var id: String?
+    var version: Int = 32
+    var isHDWallet: Bool
+    var pathToAddress: [String:String]
+    var rootPath: String?
+    
+    public init(crypto cr: CryptoParamsV3, id i: String, version ver: Int, rootPath: String? = nil) {
+        crypto = cr
+        id = i
+        version = ver
+        isHDWallet = true
+        pathToAddress = [String:String]()
+        self.rootPath = rootPath
+    }
+    
+}
 public struct KeystoreParamsV3: AbstractKeystoreParams {
     public var crypto: CryptoParamsV3
     public var id: String?

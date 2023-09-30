@@ -27,7 +27,7 @@ public class BIP32Keystore: AbstractKeystore {
         }
     }
 
-    public var rootPrefix: String
+    public var rootPrefix: String = ""
 
     public var addresses: [EthereumAddress]? {
         get {
@@ -40,7 +40,17 @@ public class BIP32Keystore: AbstractKeystore {
     }
 
     public func UNSAFE_getPrivateKeyData(password: String, account: EthereumAddress) throws -> Data {
-        if let key = addressStorage.path(by: account) {
+        if let key = self.paths.keyForValue(value: account) {
+            guard let decryptedRootNode = try? self.getPrefixNodeData(password) else {throw AbstractKeystoreError.encryptionError("Failed to decrypt a keystore")}
+            guard let rootNode = HDNode(decryptedRootNode) else {throw AbstractKeystoreError.encryptionError("Failed to deserialize a root node")}
+            guard rootNode.depth == (self.rootPrefix.components(separatedBy: "/").count - 1) else {throw AbstractKeystoreError.encryptionError("Derivation depth mismatch")}
+//            guard rootNode.depth == HDNode.defaultPathPrefix.components(separatedBy: "/").count - 1 else {throw AbstractKeystoreError.encryptionError("Derivation depth mismatch")}
+            guard let index = UInt32(key.components(separatedBy: "/").last!) else {throw AbstractKeystoreError.encryptionError("Derivation depth mismatch")}
+            guard let keyNode = rootNode.derive(index: index, derivePrivateKey: true) else {throw AbstractKeystoreError.encryptionError("Derivation failed")}
+            guard let privateKey = keyNode.privateKey else {throw AbstractKeystoreError.invalidAccountError}
+            return privateKey
+        }
+        else if let key = addressStorage.path(by: account) {
             guard let decryptedRootNode = try? self.getPrefixNodeData(password) else {throw AbstractKeystoreError.encryptionError("Failed to decrypt a keystore")}
             guard let rootNode = HDNode(decryptedRootNode) else {throw AbstractKeystoreError.encryptionError("Failed to deserialize a root node")}
             guard rootNode.depth == (self.rootPrefix.components(separatedBy: "/").count - 1) else {throw AbstractKeystoreError.encryptionError("Derivation depth mismatch")}
@@ -63,7 +73,7 @@ public class BIP32Keystore: AbstractKeystore {
 
     private static let KeystoreParamsBIP32Version = 4
 
-    public private (set) var addressStorage: PathAddressStorage
+    public private (set) var addressStorage = PathAddressStorage()
 
     public convenience init?(_ jsonString: String) {
         let lowercaseJSON = jsonString.lowercased()
@@ -74,18 +84,38 @@ public class BIP32Keystore: AbstractKeystore {
     }
 
     public init?(_ jsonData: Data) {
-        guard var keystorePars = try? JSONDecoder().decode(KeystoreParamsBIP32.self, from: jsonData) else { return nil }
-        if keystorePars.version != Self.KeystoreParamsBIP32Version { return nil }
-        if keystorePars.crypto.version != nil && keystorePars.crypto.version != "1" { return nil }
-        if !keystorePars.isHDWallet { return nil }
+        var keystorePars = try? JSONDecoder().decode(KeystoreParamsBIP32.self, from: jsonData)
+        if keystorePars != nil {
+            if keystorePars!.version != Self.KeystoreParamsBIP32Version { return nil }
+            if keystorePars!.crypto.version != nil && keystorePars!.crypto.version != "1" { return nil }
+            if !keystorePars!.isHDWallet { return nil }
 
-        addressStorage = PathAddressStorage(pathAddressPairs: keystorePars.pathAddressPairs)
+            addressStorage = PathAddressStorage(pathAddressPairs: keystorePars!.pathAddressPairs)
 
-        if keystorePars.rootPath == nil {
-            keystorePars.rootPath = HDNode.defaultPathPrefix
+            if keystorePars!.rootPath == nil {
+                keystorePars!.rootPath = HDNode.defaultPathPrefix
+            }
+            keystoreParams = keystorePars
+            rootPrefix = keystoreParams!.rootPath!
+        } else {
+            var keystoreParsOld = try? JSONDecoder().decode(KeystoreParamsBIP32Old.self, from: jsonData)
+            if (keystoreParsOld!.version != 3) {return nil}
+            if (keystoreParsOld!.crypto.version != nil && keystoreParsOld!.crypto.version != "1") {return nil}
+            if (!keystoreParsOld!.isHDWallet) {return nil}
+            for (p, ad) in keystoreParsOld!.pathToAddress {
+                paths[p] = EthereumAddress(ad)
+            }
+            if keystoreParsOld!.rootPath == nil {
+                keystoreParsOld!.rootPath = HDNode.defaultPathPrefix
+            }
+            var params = KeystoreParamsBIP32(crypto: keystoreParsOld!.crypto, id: keystoreParsOld!.id!)
+            params.isHDWallet = keystoreParsOld!.isHDWallet
+            params.rootPath = keystoreParsOld!.rootPath
+            params.version = keystoreParsOld!.version
+            
+            keystoreParams = params
+            rootPrefix = keystoreParams!.rootPath!
         }
-        keystoreParams = keystorePars
-        rootPrefix = keystoreParams!.rootPath!
     }
 
     public convenience init?(mnemonics: String, password: String, mnemonicsPassword: String = "", language: BIP39Language = BIP39Language.english, prefixPath: String = HDNode.defaultPathMetamaskPrefix, aesMode: String = "aes-128-cbc") throws {

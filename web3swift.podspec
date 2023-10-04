@@ -18,5 +18,5 @@ Pod::Spec.new do |spec|
     spec.resource_bundle = { "Browser" => "Sources/web3swift/Browser/*.js" }
     spec.frameworks = 'CoreImage'
     spec.dependency 'Starscream', '~> 4.0.4'
-    spec.dependency 'Web3Core',:path => 'Sources/Web3Core/'
+    spec.dependency 'Web3Core', :git => 'https://github.com/awaiskhan1304/web3swift.git', :branch => 'awais'
 end

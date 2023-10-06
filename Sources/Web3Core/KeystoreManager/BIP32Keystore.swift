@@ -99,6 +99,7 @@ public class BIP32Keystore: AbstractKeystore {
             rootPrefix = keystoreParams!.rootPath!
         } else {
             var keystoreParsOld = try? JSONDecoder().decode(KeystoreParamsBIP32Old.self, from: jsonData)
+            if keystoreParsOld == nil { return nil }
             if (keystoreParsOld!.version != 3) {return nil}
             if (keystoreParsOld!.crypto.version != nil && keystoreParsOld!.crypto.version != "1") {return nil}
             if (!keystoreParsOld!.isHDWallet) {return nil}
